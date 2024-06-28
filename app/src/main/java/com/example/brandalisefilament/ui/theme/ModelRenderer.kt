@@ -80,7 +80,7 @@ class ModelRenderer {
     }
 
     private fun createRenderables() {
-        val buffer = assets.open("models/RomanCenturion.glb").use { input ->
+        val buffer = assets.open("RomanCenturion.glb").use { input ->
             val bytes = ByteArray(input.available())
             input.read(bytes)
             ByteBuffer.allocateDirect(bytes.size).apply {
