@@ -12,17 +12,19 @@ import com.google.android.filament.utils.ModelViewer
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
-
 class ModelRenderer {
     private lateinit var surfaceView: SurfaceView
     private lateinit var lifecycle: Lifecycle
 
     private lateinit var choreographer: Choreographer
     private lateinit var uiHelper: UiHelper
-    private lateinit var modelViewer: ModelViewer
-    private lateinit var assets: AssetManager
 
-    private val frameScheduler = Choreographer.FrameCallback()
+    private lateinit var modelViewer: ModelViewer
+
+    private val assets: AssetManager
+        get() = surfaceView.context.assets
+
+    private val frameScheduler = FrameCallback()
 
     private val lifecycleObserver = object : DefaultLifecycleObserver {
         override fun onResume(owner: LifecycleOwner) {
@@ -42,7 +44,6 @@ class ModelRenderer {
     fun onSurfaceAvailable(surfaceView: SurfaceView, lifecycle: Lifecycle) {
         this.surfaceView = surfaceView
         this.lifecycle = lifecycle
-        assets = surfaceView.context.assets
 
         lifecycle.addObserver(lifecycleObserver)
 
@@ -79,7 +80,7 @@ class ModelRenderer {
     }
 
     private fun createRenderables() {
-        val buffer = assets.open("models/tutorial.glb").use { input ->
+        val buffer = assets.open("models/RomanCenturion.glb").use { input ->
             val bytes = ByteArray(input.available())
             input.read(bytes)
             ByteBuffer.allocateDirect(bytes.size).apply {
@@ -100,4 +101,3 @@ class ModelRenderer {
         }
     }
 }
-
